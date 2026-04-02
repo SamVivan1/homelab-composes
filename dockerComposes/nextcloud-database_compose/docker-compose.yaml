@@ -23,10 +23,10 @@ services:
       - --innodb-file-per-table=1
       - --skip-innodb-read-only-compressed
     environment:
-      - MYSQL_ROOT_PASSWORD=scifinder~9   # ganti ini dengan password kuat
-      - MYSQL_PASSWORD=scifinder~9        # sama dengan di bawah
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_ROOT_PASSWORD=   # ganti ini dengan password kuat
+      - MYSQL_PASSWORD=     # sama dengan di bawah
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -41,10 +41,10 @@ services:
     depends_on:
       - db
     environment:
-      - MYSQL_PASSWORD=scifinder~9
-      - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
-      - MYSQL_HOST=db
+      - MYSQL_PASSWORD=
+      - MYSQL_DATABASE=
+      - MYSQL_USER=
+      - MYSQL_HOST=
     volumes:
       - /mnt/Storage2/nextcloud/html:/var/www/html
     dns:
