@@ -1,0 +1,22 @@
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "5678:5678"
+    environment:
+      - GENERIC_TIMEZONE=Asia/Jakarta
+      - TZ=Asia/Jakarta
+      - N8N_HOST=n8n.samvivan.my.id
+      - N8N_PORT=5678
+      - WEBHOOK_URL=https://n8n.samvivan.my.id
+    volumes:
+      - n8n_data:/home/node/.n8n
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+
+volumes:
+  n8n_data:

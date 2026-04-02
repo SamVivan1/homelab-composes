@@ -1,0 +1,54 @@
+volumes:
+  db_data:
+
+networks:
+  nextcloud-net:
+    driver: bridge
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: nextcloud-redis
+    restart: always
+    networks:
+      - nextcloud-net
+
+  db:
+    image: mariadb:latest
+    container_name: nextcloud-db
+    restart: always
+    command:
+      - --transaction-isolation=READ-COMMITTED
+      - --binlog-format=ROW
+      - --innodb-file-per-table=1
+      - --skip-innodb-read-only-compressed
+    environment:
+      - MYSQL_ROOT_PASSWORD=scifinder~9   # ganti ini dengan password kuat
+      - MYSQL_PASSWORD=scifinder~9        # sama dengan di bawah
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - nextcloud-net
+
+  app:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    restart: always
+    ports:
+      - "10081:80"
+    depends_on:
+      - db
+    environment:
+      - MYSQL_PASSWORD=scifinder~9
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_HOST=db
+    volumes:
+      - /mnt/Storage2/nextcloud/html:/var/www/html
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    networks:
+      - nextcloud-net
